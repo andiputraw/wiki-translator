@@ -12,8 +12,8 @@ export default class FetchData_Service {
     const content = await FetchData_Service.fetch();
     const originalContent = makeArray(content);
     const TranslationReady = filterContent(content);
-    FileSystemHandler.writeTranslate(JSON.stringify(TranslationReady, null, 3));
-    FileSystemHandler.writeOriginal(JSON.stringify(originalContent));
+    FileSystemHandler.writeTranslate(TranslationReady);
+    FileSystemHandler.writeOriginal(originalContent);
 
     console.log("Selesai");
   }

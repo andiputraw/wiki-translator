@@ -20,18 +20,12 @@ export default async function Publish_Puppteer(
 
   await page.evaluate(() => {
     const textBox = document.querySelector("#wpTextbox1") as HTMLInputElement;
-    textBox.value = content;
+    textBox.value = "";
   });
+  await page.type("#wpTextbox1", content);
   await page.type("#wpSummary", summary);
 
-  await Promise.all([page.click("#wpPreview"), page.waitForNavigation()]);
-  await page.screenshot({
-    type: "png",
-    fullPage: true,
-    path: "translation/preview.png",
-  });
-
-  // await Promise.all([page.click("#wpSave"), page.waitForNavigation()]);
+  await Promise.all([page.click("#wpSave"), page.waitForNavigation()]);
 
   browser.close();
 }

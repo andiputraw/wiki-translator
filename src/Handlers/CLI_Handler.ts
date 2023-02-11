@@ -2,6 +2,7 @@ import inquirer, { Answers } from "inquirer";
 import FetchData_Service from "../Service/FetchData_Service";
 import PreviewData_Service from "../Service/PreviewData_Service";
 import PublishData_Service from "../Service/PublishData_Service";
+import Utility_Service from "../Service/Utilitiy_Service";
 
 export default class CLI_Handler {
   static async main() {
@@ -9,7 +10,7 @@ export default class CLI_Handler {
       type: "list",
       name: "value",
       message: "Apa yang mau kamu lakukan?",
-      choices: ["Ambil Data", "Lihat Preview", "Publish"],
+      choices: ["Ambil Data", "Lihat Preview", "Publish", "Utility"],
     });
 
     CLI_Handler.checkAnswer(answer.value);
@@ -30,6 +31,17 @@ export default class CLI_Handler {
       type: "input",
       name: "value",
       message: message,
+    });
+
+    return answer.value;
+  }
+
+  static async select() {
+    const answer = await inquirer.prompt({
+      type: "list",
+      name: "value",
+      message: "apa uang mau kamu lakukan?",
+      choices: ["Ubah [[content]] menjadi [[content/id|content]]"],
     });
 
     return answer.value;
@@ -62,6 +74,12 @@ export default class CLI_Handler {
           "Inputkan Summary (biarkan kosong jika tidak ada)"
         );
         PublishData_Service.main(summary);
+      }
+    } else if (answer === "Utility") {
+      const answer = await CLI_Handler.select();
+      if (answer === "Ubah [[content]] menjadi [[content/id|content]]") {
+        Utility_Service.replaceUrl();
+        console.log("selesai");
       }
     }
   }
